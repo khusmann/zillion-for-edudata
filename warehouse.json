@@ -9,6 +9,21 @@
       "name": "student_grade",
       "type": "numeric",
       "aggregation": "mean"
+    },
+    {
+      "name": "teacher_stressLevel",
+      "type": "numeric",
+      "aggregation": "mean"
+    },
+    {
+      "name": "student_socialskill",
+      "type": "numeric",
+      "aggregation": "mean"
+    },
+    {
+      "name": "student_motivation",
+      "type": "numeric",
+      "aggregation": "mean"
     }
   ],
   "dimensions": [
@@ -25,12 +40,24 @@
       "type": "integer"
     },
     {
+      "name": "id_teacher",
+      "type": "integer"
+    },
+    {
+      "name": "id_week",
+      "type": "integer"
+    },
+    {
       "name": "id_school",
       "type": "integer"
     },
     {
       "name": "student_grade_dim",
       "type": "integer"
+    },
+    {
+      "name": "teacher_stressLevel_avg",
+      "type": "numeric"
     }
   ],
   "datasources": {
@@ -46,6 +73,81 @@
             },
             "school_type": {
               "fields": ["school_type"]
+            }
+          }
+        },
+        "main.teachers": {
+          "type": "dimension",
+          "parent": "main.schools",
+          "primary_key": ["id_teacher"],
+          "columns": {
+            "id_teacher": {
+              "fields": ["id_teacher"]
+            },
+            "id_school": {
+              "fields": ["id_school"]
+            }
+          }
+        },
+        "main.teacher_weekly_avg": {
+          "type": "dimension",
+          "parent": "main.teachers",
+          "primary_key": ["id_teacher"],
+          "columns": {
+            "id_teacher": {
+              "fields": ["id_teacher"]
+            },
+            "teacher_stressLevel_avg": {
+              "fields": ["teacher_stressLevel_avg"]
+            }
+          }
+        },
+        "main.weeks": {
+          "type": "dimension",
+          "parent": "main.waves",
+          "primary_key": ["id_week"],
+          "columns": {
+            "id_week": {
+              "fields": ["id_week"]
+            },
+            "id_wave": {
+              "fields": ["id_wave"]
+            }
+          }
+        },
+        "main.teacher_weekly": {
+          "type": "metric",
+          "primary_key": ["id_teacher", "id_week"],
+          "columns": {
+            "id_teacher": {
+              "fields": ["id_teacher"]
+            },
+            "id_week": {
+              "fields": ["id_week"]
+            },
+            "teacher_stressLevel": {
+              "fields": ["teacher_stressLevel"]
+            }
+          }
+        },
+        "main.teacher_student_ratings": {
+          "type": "metric",
+          "primary_key": ["id_teacher", "id_student", "id_wave"],
+          "columns": {
+            "id_teacher": {
+              "fields": ["id_teacher"]
+            },
+            "id_student": {
+              "fields": ["id_student"]
+            },
+            "id_wave": {
+              "fields": ["id_wave"]
+            },
+            "student_socialskill": {
+              "fields": ["student_socialskill"]
+            },
+            "student_motivation": {
+              "fields": ["student_motivation"]
             }
           }
         },
