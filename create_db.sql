@@ -24,6 +24,9 @@ student_gender TEXT
 
 .import --skip 1 data/student_info.csv student_info
 
+CREATE VIEW student_info_view AS
+SELECT * from student_info;
+
 CREATE TABLE waves (
 id_wave INT PRIMARY KEY,
 display_name TEXT

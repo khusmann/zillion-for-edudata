@@ -27,6 +27,10 @@
     {
       "name": "id_school",
       "type": "integer"
+    },
+    {
+      "name": "student_grade_dim",
+      "type": "integer"
     }
   ],
   "datasources": {
@@ -76,6 +80,19 @@
             },
             "student_grade": {
               "fields": ["student_grade"]
+            }
+          }
+        },
+        "main.student_info_view": {
+          "type": "dimension",
+          "parent": "main.students",
+          "primary_key": ["id_student"],
+          "columns": {
+            "id_student": {
+              "fields": ["id_student"]
+            },
+            "student_grade": {
+              "fields": ["student_grade_dim"]
             }
           }
         },
