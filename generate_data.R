@@ -94,6 +94,7 @@ student_scores <- expand_grid(
   id_wave = waves$id_wave,
 ) %>%
   mutate(
+    id = row_number(),
     student_mathScore = rsample(1:4, n()),
     student_readingScore = rsample(1:4, n()),
     student_writingScore = rsample(1:4, n()),
