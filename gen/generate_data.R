@@ -1,7 +1,11 @@
 library(charlatan)
 library(tidyverse)
+library(glue)
 
-dir.create("data", showWarnings = FALSE)
+DEST_DIR <- "./data"
+
+dir.create(DEST_DIR, showWarnings = FALSE)
+
 set.seed(9000)
 
 fake <- fraudster()
@@ -28,7 +32,7 @@ schools <- tibble(
     school_name = fake$color_name(n()),
     school_type = rsample(c("suburban", "urban", "rural"), n())
   ) %>%
-  write_csv("data/schools.csv")
+  write_csv(glue("{DEST_DIR}/schools.csv"))
 
 teachers <- tibble(
   id_teacher = 1:60
@@ -37,7 +41,7 @@ teachers <- tibble(
     id_school = rsample(schools$id_school, n()),
     teacher_name = fake$name(n()),
   ) %>%
-  write_csv("data/teachers.csv")
+  write_csv(glue("{DEST_DIR}/teachers.csv"))
 
 students <- tibble(
   id_student = 1:300
@@ -46,7 +50,7 @@ students <- tibble(
     id_school = rsample(schools$id_school, n()),
     student_name = fake$name(n()),
   ) %>%
-  write_csv("data/students.csv")
+  write_csv(glue("{DEST_DIR}/students.csv"))
 
 # Define waves & weeks
 
@@ -56,7 +60,7 @@ waves <- tibble(
   mutate(
     display_name = str_c("Wave ", id_wave)
   ) %>%
-  write_csv("data/waves.csv")
+  write_csv(glue("{DEST_DIR}/waves.csv"))
 
 weeks <- expand_grid(
   id_wave = waves$id_wave,
@@ -66,7 +70,7 @@ weeks <- expand_grid(
     id_week = row_number(),
     display_name = str_c("Wave ", id_wave, ", Week ", week_num),
   ) %>%
-  write_csv("data/weeks.csv")
+  write_csv(glue("{DEST_DIR}/weeks.csv"))
 
 # Collect teacher and student baseline info
 
@@ -77,7 +81,7 @@ teacher_info <- tibble(
     teacher_grade = fake_grade(n()),
     teacher_gender = fake_gender(n()),
   ) %>%
-  write_csv("data/teacher_info.csv")
+  write_csv(glue("{DEST_DIR}/teacher_info.csv"))
 
 student_info <- tibble(
   id_student = students$id_student,
@@ -86,7 +90,7 @@ student_info <- tibble(
     student_grade = fake_grade(n()),
     student_gender = fake_gender(n()),
   ) %>%
-  write_csv("data/student_info.csv")
+  write_csv(glue("{DEST_DIR}/student_info.csv"))
 
 # Student test scores at each wave
 
@@ -100,7 +104,7 @@ student_scores <- expand_grid(
     student_readingScore = rsample(1:4, n()),
     student_writingScore = rsample(1:4, n()),
   ) %>%
-  write_csv("data/student_scores.csv")
+  write_csv(glue("{DEST_DIR}/student_scores.csv"))
 
 # Teacher stress scores at each week
 
@@ -111,7 +115,7 @@ teacher_weekly <- expand_grid(
   mutate(
     teacher_stresslevel = rsample(1:4, n())
   ) %>%
-  write_csv("data/teacher_weekly.csv")
+  write_csv(glue("{DEST_DIR}/teacher_weekly.csv"))
 
 # Teachers rate students' social skills & motivation each wave
 
@@ -124,4 +128,4 @@ teacher_student_ratings <- expand_grid(
     student_socialskill = rsample(1:4, n()),
     student_motivation = rsample(1:4, n())
   ) %>%
-  write_csv("data/teacher_student_ratings.csv")
+  write_csv(glue("{DEST_DIR}/teacher_student_ratings.csv"))
