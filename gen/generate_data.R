@@ -2,6 +2,7 @@ library(charlatan)
 library(tidyverse)
 
 dir.create("data", showWarnings = FALSE)
+set.seed(9000)
 
 fake <- fraudster()
 
