@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from zillion import Warehouse
 
 wh = Warehouse("./warehouse.json")
