@@ -62,7 +62,7 @@
   ],
   "datasources": {
     "main": {
-      "connect": "sqlite:///data/main.db",
+      "connect": "sqlite:///main.db",
       "tables": {
         "main.schools": {
           "type": "dimension",
