@@ -1,0 +1,345 @@
+{
+  "name": "example-datapackage",
+  "description": "an example datapackage with fake education data",
+  "resources": [
+    {
+      "name": "schools",
+      "profile": "tabular-data-resource",
+      "path": "schools.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_school",
+            "type": "integer"
+          },
+          {
+            "name": "school_name",
+            "type": "string"
+          },
+          {
+            "name": "school_type",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_school"
+      }
+    },
+    {
+      "name": "student_info",
+      "description": "Student-level info",
+      "profile": "tabular-data-resource",
+      "path": "student_info.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_student",
+            "type": "integer"
+          },
+          {
+            "name": "student_grade",
+            "description": "Grade level of the student (K-5)",
+            "type": "integer"
+          },
+          {
+            "name": "student_name",
+            "description": "The name of the student",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_student",
+        "foreignKeys": [
+          {
+            "fields": "id_student",
+            "reference": {
+              "resource": "students",
+              "fields": "id_student"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "student_scores",
+      "description": "Test scores for students at each wave",
+      "profile": "tabular-data-resource",
+      "path": "student_scores.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_student",
+            "type": "integer"
+          },
+          {
+            "name": "id_wave",
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "student_mathScore",
+            "type": "integer"
+          },
+          {
+            "name": "student_readingScore",
+            "type": "integer"
+          },
+          {
+            "name": "student_writingScore",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": ["id_student", "id_wave"],
+        "foreignKeys": [
+          {
+            "fields": "id_student",
+            "reference": {
+              "resource": "students",
+              "fields": "id_student"
+            }
+          },
+          {
+            "fields": "id_wave",
+            "reference": {
+              "resource": "waves",
+              "fields": "id_wave"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "students",
+      "profile": "tabular-data-resource",
+      "path": "students.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_student",
+            "type": "integer"
+          },
+          {
+            "name": "id_school",
+            "type": "integer"
+          },
+          {
+            "name": "student_name",
+            "description": "The name of the student",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_student",
+        "foreignKeys": [
+          {
+            "fields": "id_student",
+            "reference": {
+              "resource": "students",
+              "fields": "id_student"
+            }
+          },
+          {
+            "fields": "id_school",
+            "reference": {
+              "resource": "schools",
+              "fields": "id_school"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "teacher_student_ratings",
+      "profile": "tabular-data-resource",
+      "path": "teacher_student_ratings.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_student",
+            "type": "integer"
+          },
+          {
+            "name": "id_wave",
+            "type": "integer"
+          },
+          {
+            "name": "id_teacher",
+            "type": "integer"
+          },
+          {
+            "name": "student_socialskill",
+            "type": "integer"
+          },
+          {
+            "name": "student_motivation",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": ["id_student", "id_wave", "id_teacher"],
+        "foreignKeys": [
+          {
+            "fields": "id_student",
+            "reference": {
+              "resource": "students",
+              "fields": "id_student"
+            }
+          },
+          {
+            "fields": "id_wave",
+            "reference": {
+              "resource": "waves",
+              "fields": "id_wave"
+            }
+          },
+
+          {
+            "fields": "id_teacher",
+            "reference": {
+              "resource": "teachers",
+              "fields": "id_teacher"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "teacher_weekly",
+      "profile": "tabular-data-resource",
+      "path": "teacher_weekly.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_teacher",
+            "type": "integer"
+          },
+          {
+            "name": "id_week",
+            "type": "integer"
+          },
+          {
+            "name": "teacher_stressLevel",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": ["id_teacher", "id_week"],
+        "foreignKeys": [
+          {
+            "fields": "id_teacher",
+            "reference": {
+              "resource": "teachers",
+              "fields": "id_teacher"
+            }
+          },
+          {
+            "fields": "id_week",
+            "reference": {
+              "resource": "weeks",
+              "fields": "id_wave"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "teachers",
+      "profile": "tabular-data-resource",
+      "path": "teachers.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_teacher",
+            "type": "integer"
+          },
+          {
+            "name": "id_school",
+            "type": "integer"
+          },
+          {
+            "name": "teacher_name",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_teacher",
+        "foreignKeys": [
+          {
+            "fields": "id_teacher",
+            "reference": {
+              "resource": "teachers",
+              "fields": "id_teacher"
+            }
+          },
+          {
+            "fields": "id_school",
+            "reference": {
+              "resource": "schools",
+              "fields": "id_school"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "waves",
+      "profile": "tabular-data-resource",
+      "path": "waves.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_wave",
+            "type": "integer"
+          },
+          {
+            "name": "display_name",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_wave"
+      }
+    },
+    {
+      "name": "weeks",
+      "profile": "tabular-data-resource",
+      "path": "weeks.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id_week",
+            "type": "integer"
+          },
+          {
+            "name": "display_name",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id_week"
+      }
+    }
+  ]
+}
